@@ -1,0 +1,45 @@
+# Settings for the red-sequence summary figure.
+# Any of these can be overridden from the command line (see README).
+
+# Spectroscopic member / non-member selection (panels c-f)
+selection:
+  spec_sources: [DESI, NED]   # Z_source values trusted as spectroscopic
+  dz: 0.02                    # members: |Z_best - z_cluster| <= dz
+  clip_sigma: 5.0             # sigma clipping of member colours
+  min_members: 10             # clusters with fewer members are flagged / dropped
+  exclude_prefix: COSMOS      # targets whose name starts with this are skipped
+
+# Red-sequence box purity (panel e)
+purity:
+  mag: m_g                    # magnitude the red-sequence line is fitted against
+  mag_max: 22.5               # faint limit for members and non-members
+  tol_bg: 0.1                 # b-g half-width; other colours scale by std/std(b-g)
+  clip_fit: 2.5               # sigma clipping in the line fit
+
+# superbit_lensing.rs_catcher settings (panels a, b)
+red_sequence:
+  cluster: Abell1689
+  color_index: bg
+  delz: 0.02
+  tolerance: 0.1
+  resolution: 0.47            # arcmin
+  sigma: 1.51                 # smoothing kernel [pixels]
+  density_mode: number
+  fixed_intercept: true
+  m_lower_limit: 16.0
+  m_upper_limit: 23.0
+
+# Violin cluster (panel c)
+violin_cluster: Abell1689
+
+# Figure layout / style
+plot:
+  fig_width: 7.1              # inches (full page width)
+  fig_height: 7.6
+  font: 8                     # all text ...
+  font_count: 6.5             # ... except per-cluster count labels in (d), (e)
+  marker_size: 26             # markers in (d), (e)
+  min_sep: 0.0115             # display spacing in z for crowded clusters
+  purity_ymin: 0.5            # bottom of (e) in the version without count labels
+  zmax: 0.44                  # right edge of the redshift axis
+  dpi: 300                    # PNG resolution

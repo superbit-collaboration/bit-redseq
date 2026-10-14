@@ -1,0 +1,8 @@
+# Versions this was developed and checked with (bit_v3 conda env)
+numpy>=2.0
+scipy>=1.16
+astropy>=8.0
+pandas>=2.2
+matplotlib>=3.10
+pyyaml>=6.0
+# plus superbit-lensing (installed separately, provides rs_catcher)

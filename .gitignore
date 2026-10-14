@@ -1,0 +1,6 @@
+output/
+rs_work/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.fits
