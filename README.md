@@ -9,7 +9,7 @@ from a MEGA colour–magnitude catalog.
 | (b) | Smoothed number density of the red-sequence galaxies |
 | (c) | b−g, u−g, u−b distributions of the Abell 1689 spectroscopic members |
 | (d) | Colour scatter of spectroscopic members vs redshift (numbers: N members) |
-| (e) | Red-sequence box purity vs redshift (numbers: members / non-members) |
+| (e) | Red-sequence box purity vs redshift |
 | (f) | Median member colour vs redshift |
 
 Panels (a) and (b) use `superbit_lensing.rs_catcher.ClusterRedSequenceAnalysis`
@@ -34,8 +34,7 @@ Outputs go to `./output/` (change with `--outdir`):
 
 | File | |
 |---|---|
-| `fig_redsequence_summary.pdf` / `.png` | figure, with count labels in (e) |
-| `fig_redsequence_summary_no_purity_counts.pdf` / `.png` | figure, no count labels in (e); (e) starts at `plot.purity_ymin` |
+| `fig_redsequence_summary.pdf` / `.png` | the figure |
 | `cluster_color_scatter_specz.fits` | per-cluster member colour statistics (panels d, f) |
 | `cluster_redsequence_purity.fits` | per-cluster purity, box widths, counts (panel e) |
 | `config_used.yaml` | exact settings of the run |
@@ -47,7 +46,13 @@ Other options:
 --targets my_targets.csv      # Name, z columns; default: superbit-lensing/data/SuperBIT_target_galactic_coords.csv
 --config my_config.yaml       # default: config/default.yaml
 --set selection.dz=0.01 plot.purity_ymin=0.4   # override single settings
+--set plot.purity_counts=true  # label (e) with members / non-members per cluster
 ```
+
+By default panel (e) has no count labels and its axis starts at `plot.purity_ymin`
+(0.5), so clusters with lower purity (MACSJ0416, ~0.2) fall outside it. With
+`plot.purity_counts: true` the labels are drawn and the axis extends to show every
+cluster.
 
 ## Method
 

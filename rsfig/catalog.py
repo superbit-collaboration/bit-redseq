@@ -14,7 +14,7 @@ from . import COLORS
 DEFAULT_TARGETS = os.path.join(os.path.dirname(os.path.dirname(superbit_lensing.__file__)),
                                "data", "SuperBIT_target_galactic_coords.csv")
 
-REQUIRED_COLUMNS = ["CLUSTER", "Z_best", "Z_source", "m_g"] + [c for c, *_ in COLORS]
+REQUIRED_COLUMNS = ["CLUSTER", "Z_best", "Z_source"] + [c for c, *_ in COLORS]
 
 
 def _float(col):
@@ -22,19 +22,23 @@ def _float(col):
 
 
 class MegaCatalog:
-    """Plain-numpy view of the columns used by the analysis (read once)."""
+    """
+    Plain-numpy view of the columns used by the analysis (read once).
+    `extra` adds further columns, e.g. the magnitude used for the purity box.
+    """
 
-    def __init__(self, path):
+    def __init__(self, path, extra=()):
         self.path = os.path.abspath(path)
         tab = Table.read(self.path)
-        missing = [c for c in REQUIRED_COLUMNS if c not in tab.colnames]
+        wanted = list(dict.fromkeys(REQUIRED_COLUMNS + list(extra)))
+        missing = [c for c in wanted if c not in tab.colnames]
         if missing:
             raise ValueError(f"{path} is missing columns: {missing}")
         self.n = len(tab)
         self.cluster = np.char.strip(np.asarray(tab["CLUSTER"]).astype(str))
         self.source = np.char.strip(np.asarray(tab["Z_source"]).astype(str))
         self.zbest = _float(tab["Z_best"])
-        self.columns = {c: _float(tab[c]) for c in REQUIRED_COLUMNS
+        self.columns = {c: _float(tab[c]) for c in wanted
                         if c not in ("CLUSTER", "Z_source", "Z_best")}
 
     def __getitem__(self, name):

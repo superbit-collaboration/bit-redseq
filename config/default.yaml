@@ -40,6 +40,7 @@ plot:
   font_count: 6.5             # ... except per-cluster count labels in (d), (e)
   marker_size: 26             # markers in (d), (e)
   min_sep: 0.0115             # display spacing in z for crowded clusters
-  purity_ymin: 0.5            # bottom of (e) in the version without count labels
+  purity_counts: false        # annotate (e) with members/non-members per cluster
+  purity_ymin: 0.5            # bottom of (e) when purity_counts is false
   zmax: 0.44                  # right edge of the redshift axis
   dpi: 300                    # PNG resolution

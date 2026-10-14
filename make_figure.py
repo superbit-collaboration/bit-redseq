@@ -5,8 +5,8 @@ Build the red-sequence summary figure from a MEGA colour-magnitude catalog.
     python make_figure.py --catalog FINAL_mega_color_mag_catalog_XXXX.fits
 
 Writes into --outdir (default ./output):
-    fig_redsequence_summary.pdf/.png                    with count labels in (e)
-    fig_redsequence_summary_no_purity_counts.pdf/.png   without them
+    fig_redsequence_summary.pdf/.png                    the figure (count labels in (e)
+                                                        only if plot.purity_counts: true)
     cluster_color_scatter_specz.fits                    per-cluster member colour stats
     cluster_redsequence_purity.fits                     per-cluster purity
 """
@@ -44,7 +44,7 @@ def main():
     sel, pur, p = cfg["selection"], cfg["purity"], cfg["plot"]
     os.makedirs(args.outdir, exist_ok=True)
 
-    cat = MegaCatalog(args.catalog)
+    cat = MegaCatalog(args.catalog, extra=[pur["mag"]])
     zmap = load_target_redshifts(args.targets)
     names = cat.targets(sel["exclude_prefix"])
     check_redshifts(names, zmap)
@@ -60,9 +60,8 @@ def main():
     violin = member_colors(cat, vname, zmap[vname], sel)
     an = run_red_sequence(args.catalog, cfg["red_sequence"], os.path.join(args.outdir, "rs_work"))
 
-    base = os.path.join(args.outdir, "fig_redsequence_summary")
-    make_figure(an, violin, scatter, purity, p, base, show_counts=True)
-    make_figure(an, violin, scatter, purity, p, base + "_no_purity_counts", show_counts=False)
+    make_figure(an, violin, scatter, purity, p, os.path.join(args.outdir, "fig_redsequence_summary"),
+                show_counts=p["purity_counts"])
 
     with open(os.path.join(args.outdir, "config_used.yaml"), "w") as f:
         yaml.safe_dump({"catalog": os.path.abspath(args.catalog),
